@@ -13351,7 +13351,7 @@ MSE:  0.05014005277530606
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;matplotlib.collections.PathCollection at 0x7f9b88bc6cc0&gt;</pre>
+<pre>&lt;matplotlib.collections.PathCollection at 0x7f1a0ef67ef0&gt;</pre>
 </div>
 
 </div>
@@ -13542,7 +13542,7 @@ Real times [2012, 2018]:  [9.63 9.81]
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>What can we say about the two new models?</p>
+<p>What can we say about the new models?</p>
 
 </div>
 </div>
@@ -13572,7 +13572,7 @@ Real times [2012, 2018]:  [9.63 9.81]
 <span class="n">X</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;Time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">training</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  
+<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">#Adds dummy variable</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </pre></div>
 
