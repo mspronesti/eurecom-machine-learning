@@ -21,13 +21,12 @@ class Dataset:
     def split(self, attribute, value, function):
         return set(), set(), 0.
 
-    # def extract_randomly(self, number):
-    #     new_data = Dataset(set(random.sample(self.data, number)))
-    #     return new_data
 
 class Sample:
     '''
     Class representing a sample
+    
+    If a sample is edible, self.is_positive is True
     '''
     def __init__(self, is_positive, attributes_list, values):
         self.attributes = dict()
@@ -43,6 +42,9 @@ class Sample:
         return self.hash
 
 class Tree:
+    '''
+    Class Tree
+    '''
     def __init__(self, questions_set, train_dataset, max_level, parent=None):
         self.train_dataset = train_dataset # Train set
         self.parent = parent # Parent tree
@@ -102,7 +104,29 @@ class Tree:
             return max(self.pos_tree.get_size(), self.neg_tree.get_size())
 
     def make_question(self, questions_set, max_level):
-        return (None, None, None), self.entropy_before
+        '''
+        Find the best question for a node. If no entropy improvement is possible, then (None, None, None), self.entropy_before is returned.
+        '''
+        best_entropy = self.entropy_before
+        pos_set = set()
+        neg_set = set()
+        best_question = (None, None, None)
+        for attribute, value, function in questions_set:
+            new_pos_set, new_neg_set, new_entropy = self.train_dataset.split(attribute, value, function) # Split dataset according to question (attribute, value, function)
+            if new_entropy < best_entropy: # If entropy improves
+                best_entropy = new_entropy
+                pos_set = new_pos_set
+                neg_set = new_neg_set
+                best_question = (attribute, value, function)
+        if best_question[0]: # If at least one question improves entropy
+            if len(pos_set) and len(neg_set): # If none of both sets are empty
+                new_questions_set = questions_set - set([best_question])
+                self.pos_tree = Tree(new_questions_set, pos_set, max_level, parent=self)# Where to go if the answer to the best question is positive
+                self.neg_tree = Tree(new_questions_set, neg_set, max_level, parent=self)# Where to go if the answer to the best question is negative
+            else: # It can happen that entropy decreases due to floating-point errors...
+                return best_question, self.entropy_before # If one of the sets if empty, then we return the previous entropy
+                                                          # and it means that the current node is actually a leaf
+        return best_question, best_entropy
 
 def equals(a, b):
     return a == b
